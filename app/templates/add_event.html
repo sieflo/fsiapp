@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<!-- Im Head sind ist der Full Calender Vorlage eingebetet -->
+<head>
+    <meta charset='utf-8' />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Veranstaltungskalender</h1>
+
+    <div id='calendar'></div>
+    <form id="event-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date"><br>
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date"><br>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description"><br>
+
+        <button type="button" id="add-event">Add Event</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                editable: true,
+                selectable: true,
+                events: '/events',  // Fetch events from this endpoint
+                eventClick: function(info) {
+                    // Handle event click (e.g., delete event)
+                    if (confirm('Delete this event?')) {
+                        $.ajax({
+                            url: '/delete_event/' + info.event.id,
+                            method: 'DELETE',
+                            success: function() {
+                                info.event.remove();
+                            }
+                        });
+                    }
+                }
+            });
+
+            calendar.render();
+
+            // Add event
+            $('#add-event').click(function() {
+                var formData = $('#event-form').serialize();
+                $.post('/event_add', formData, function(data) {
+                    if (data.message) {
+                        alert(data.message);
+                        $('#event-form')[0].reset();
+                        calendar.refetchEvents();
+                    } else {
+                        alert(data.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+{% endblock %}

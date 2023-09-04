@@ -1,13 +1,16 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g
+from flask import render_template, flash, redirect, url_for, make_response, \
+    request, g, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
-from flask_babel import _, get_locale
+from flask_babel import Babel, _, get_locale
+from flask_wtf import FlaskForm
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, \
-    EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
-from app.models import User, Post
+    ResetPasswordRequestForm, ResetPasswordForm, EmptyForm, PostForm, EventForm
+from app.models import User, Post, Event
 from app.email import send_password_reset_email
+
 
 
 @app.before_request
@@ -16,7 +19,6 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
     g.locale = str(get_locale())
-
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -36,7 +38,7 @@ def index():
         if posts.has_next else None
     prev_url = url_for('index', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('index.html', title=_('Home'), form=form,
+    return render_template('index.html', title=_('set_language'), form=form,
                            posts=posts.items, next_url=next_url,
                            prev_url=prev_url)
 
@@ -52,6 +54,21 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
     return render_template('index.html', title=_('Explore'),
+                           posts=posts.items, next_url=next_url,
+                           prev_url=prev_url)
+
+
+@app.route('/explore2')
+@login_required
+def explore2():
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page=page, per_page=app.config['POSTS_PER_PAGE'], error_out=False)
+    next_url = url_for('explore2', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('explore2', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('index.html', title=_('Explore2'),
                            posts=posts.items, next_url=next_url,
                            prev_url=prev_url)
 
@@ -150,12 +167,15 @@ def edit_profile():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
+        current_user.email = form.email.data
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
+        form.email.data = current_user.email
+
     return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
 
@@ -198,3 +218,40 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+# Zusätzliche Kalender Seite
+@app.route('/calendar')
+def calendar():
+    return render_template('calendar.html', title='Kalender')
+
+@app.route('/events')
+def get_events():
+    events = Event.query.all()
+    event_list = []
+    for event in events:
+        event_list.append({
+            'id': event.id,
+            'title': event.title,
+            'start': event.start_date.isoformat(),
+            'end': event.end_date.isoformat(),
+            'description': event.description
+        })
+    return jsonify(event_list)
+
+@app.route('/calendar/add_event', methods=['GET', 'POST'])
+def add_event():
+    form = EventForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        current_user.email = form.email.data
+        event = Event(
+            title=form.title.data,
+            start_date=form.start_date.data,
+            end_date=form.end_date.data,
+            description=form.description.data
+        )
+        db.session.add(event)
+        db.session.commit()
+        return jsonify({'message': 'Event added successfully'})
+    return jsonify({'error': 'Invalid form data'})

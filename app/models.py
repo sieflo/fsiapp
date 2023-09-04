@@ -3,6 +3,9 @@ from hashlib import md5
 from time import time
 from flask_login import UserMixin
 from flask import url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField, DateField
+from wtforms.validators import DataRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import app, db, login
@@ -93,7 +96,6 @@ class User(UserMixin, db.Model):
         data = {'items': [item.to_dict() for item in users]}
         return(data)
 
-    @staticmethod
     def verify_reset_password_token(token):
         try:
             id = jwt.decode(token, app.config['SECRET_KEY'],
@@ -117,3 +119,12 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
+    description = db.Column(db.String(200))
+

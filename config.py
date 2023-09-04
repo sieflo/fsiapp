@@ -13,7 +13,7 @@ class Config(object):
     MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL') == "True"
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') 
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SERVER_NAME = 'localhost:5000'
+#    SERVER_NAME = 'localhost:5000'
     ADMINS = ['florian.sieber@student.ipso.ch']
-    LANGUAGES = ['en', 'es']
+    LANGUAGES = ['en', 'es', 'de']
     POSTS_PER_PAGE = 25

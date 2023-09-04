@@ -1,7 +1,7 @@
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
-    {% if title %}{{ title }} - Microblog{% else %}{{ _('Welcome to Microblog') }}{% endif %}
+    {% if title %}{{ title }} - FSI App{% else %}{{ _('Willkommen zur App von Florian') }}{% endif %}
 {% endblock %}
 
 {% block navbar %}
@@ -14,21 +14,49 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}">FSI App</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">{{ _('Home') }}</a></li>
                     <li><a href="{{ url_for('explore') }}">{{ _('Explore') }}</a></li>
+                    <!-- Kalender app mit den enstprechenden Kalender Designs -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="calendarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ _('Kalender') }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- Hier fügst du die Dropdown-Listenelemente hinzu -->
+                                <li><a href="{{ url_for('calendar') }}">{{ _('Kalender') }} </a></li>
+                                <li><a href="{{ url_for('add_event') }}">{{ _('Event hinzufügen') }} </a></li>
+                                <!-- Füge hier weitere Dropdown-Listenelemente hinzu, falls benötigt -->
+                            </ul> 
+                        </li>
+
+                    </li>
+
+
                 </ul>
+                <!--Benutzer Dropdown, damit es unterschiedlich aussieht, 
+                wenn ich mich anmelde und wenn ich angemeldet bin. -->
+                {% if current_user.is_authenticated %}
+                <!--Wenn der Benutzer angemeldet ist-->
                 <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_anonymous %}
-                    <li><a href="{{ url_for('login') }}">{{ _('Login') }}</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
-                    <li><a href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
-                    {% endif %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">{{current_user.username}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
+                            <li><a href="{{ url_for('logout') }}">{{ _('Logout') }}</a></li>
+                        </ul>
+                    </li>
                 </ul>
+                {% else %}
+                <!--Wenn der Benutzer noch nicht angemeldet ist-->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('login') }}">{{ _('Login') }}</a></li>
+                </ul>
+                {% endif %}
+
             </div>
         </div>
     </nav>

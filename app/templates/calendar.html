@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<head>
+    <meta charset='utf-8' />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+    <h1>Veranstaltungskalender</h1>
+    <div id="calendar"></div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Ansicht beim Laden
+                events: [
+                    // Hier kannst du deine Veranstaltungsdaten einfügen
+                    {
+                        title: 'Halle A Besetzt',
+                        start: '2023-09-01',
+                        end: '2023-09-03'
+                    },
+                    {
+                        title: 'Halle B Besetzt',
+                        start: '2023-09-01',
+                        end: '2023-09-03'
+                    },
+                    // Weitere Veranstaltungen hier
+                ]
+            });
+            calendar.render();
+            
+        });
+    </script>
+{% endblock %}
