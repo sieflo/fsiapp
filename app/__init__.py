@@ -63,4 +63,4 @@ def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-from app import routes, models, errors
+from app import routes, models, errors, api

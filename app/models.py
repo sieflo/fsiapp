@@ -2,6 +2,7 @@ from datetime import datetime
 from hashlib import md5
 from time import time
 from flask_login import UserMixin
+from flask import url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from app import app, db, login
@@ -66,6 +67,32 @@ class User(UserMixin, db.Model):
             {'reset_password': self.id, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256')
 
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'username': self.username,
+            'last_seen': self.last_seen.isoformat() + 'Z',
+            'about_me': self.about_me,
+            'post_count': self.posts.count(),
+            'follower_count': self.followers.count(),
+            'followed_count': self.followed.count(),
+            '_links': {
+                'self': url_for('get_user', id=self.id),
+                'followers': url_for('get_followers', id=self.id),
+                'followed': url_for('get_followed', id=self.id),
+                'avatar': self.avatar(128)
+            }
+        }
+        if include_email:
+            data['email'] = self.email
+        return data
+
+    @staticmethod
+    def to_collection():
+        users = User.query.all()
+        data = {'items': [item.to_dict() for item in users]}
+        return(data)
+
     @staticmethod
     def verify_reset_password_token(token):
         try:
@@ -74,6 +101,7 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.get(id)
+
 
 
 @login.user_loader
