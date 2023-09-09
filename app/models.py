@@ -46,24 +46,6 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-    def follow(self, user):
-        if not self.is_following(user):
-            self.followed.append(user)
-
-    def unfollow(self, user):
-        if self.is_following(user):
-            self.followed.remove(user)
-
-    def is_following(self, user):
-        return self.followed.filter(
-            followers.c.followed_id == user.id).count() > 0
-
-    def followed_posts(self):
-        followed = Post.query.join(
-            followers, (followers.c.followed_id == Post.user_id)).filter(
-                followers.c.follower_id == self.id)
-        own = Post.query.filter_by(user_id=self.id)
-        return followed.union(own).order_by(Post.timestamp.desc())
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
@@ -76,13 +58,8 @@ class User(UserMixin, db.Model):
             'username': self.username,
             'last_seen': self.last_seen.isoformat() + 'Z',
             'about_me': self.about_me,
-            'post_count': self.posts.count(),
-            'follower_count': self.followers.count(),
-            'followed_count': self.followed.count(),
             '_links': {
                 'self': url_for('get_user', id=self.id),
-                'followers': url_for('get_followers', id=self.id),
-                'followed': url_for('get_followed', id=self.id),
                 'avatar': self.avatar(128)
             }
         }
@@ -120,6 +97,9 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
+##########################
+# Eigens erstellter Code #
+##########################
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -127,4 +107,9 @@ class Event(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
     description = db.Column(db.String(200))
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    private = db.Column(db.Boolean, default=False)
+    creator = db.relationship('User', foreign_keys=[creator_id])
 
+    def __repr__(self):
+        return '<Event {}>'.format(self.body)

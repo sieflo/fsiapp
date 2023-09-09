@@ -18,28 +18,14 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('index') }}">{{ _('Home') }}</a></li>
-                    <li><a href="{{ url_for('explore') }}">{{ _('Explore') }}</a></li>
-                    <!-- Kalender app mit den enstprechenden Kalender Designs -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="calendarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ _('Kalender') }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <!-- Hier fügst du die Dropdown-Listenelemente hinzu -->
-                                <li><a href="{{ url_for('calendar') }}">{{ _('Kalender') }} </a></li>
-                                <li><a href="{{ url_for('add_event') }}">{{ _('Event hinzufügen') }} </a></li>
-                                <!-- Füge hier weitere Dropdown-Listenelemente hinzu, falls benötigt -->
-                            </ul> 
-                        </li>
-
-                    </li>
-
+                    <li><a href="{{ url_for('calendar') }}">{{ _('Calendar') }} </a></li>
+                    <li><a href="{{ url_for('calendar_priv') }}">{{ _('Calendar - Privat') }} </a></li>
+                    <li><a href="{{ url_for('add_event') }}">Add event</a></li>
 
                 </ul>
                 <!--Benutzer Dropdown, damit es unterschiedlich aussieht, 
                 wenn ich mich anmelde und wenn ich angemeldet bin. -->
                 {% if current_user.is_authenticated %}
-                <!--Wenn der Benutzer angemeldet ist-->
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

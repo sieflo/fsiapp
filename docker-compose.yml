@@ -4,9 +4,9 @@ services:
     container_name: mysql
     restart: always
     environment:
-      - MYSQL_DATABASE=microblog
+      - MYSQL_DATABASE=mycalendar
       - MYSQL_PASSWORD=mysqlserver
-      - MYSQL_USER=microblog
+      - MYSQL_mycalendar
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     volumes:
       - ./db:/var/lib/mysql
@@ -24,7 +24,7 @@ services:
     container_name: flask
     restart: always
     environment:
-        - DATABASE_URL=mysql+pymysql://microblog:mysqlserver@dbserver/microblog
+        - DATABASE_URL=mysql+pymysql://mycalendar:mysqlserver@dbserver/mycalendar
     volumes:
       - ./app:/app:ro
     depends_on:

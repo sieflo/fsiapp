@@ -53,7 +53,6 @@ class EditProfileForm(FlaskForm):
     username = StringField(_l('Benutzername'), validators=[DataRequired()])
     about_me = TextAreaField(_l('Über mich'), validators=[Length(min=0, max=140)])
     email = StringField(_l('E-Mail'), validators=[DataRequired(), Email()])
-# Hier könnten noch weitere Felder dem Profil editieren hinzugefügt werden.
     submit = SubmitField(_l('Übermitteln'))
 
     def __init__(self, original_username, *args, **kwargs):
@@ -74,12 +73,14 @@ class EditProfileForm(FlaskForm):
 class EmptyForm(FlaskForm):
     submit = SubmitField('Übermitteln')
 
-class PostForm(FlaskForm):
-    post = TextAreaField(_l('Schreib etwas'), validators=[DataRequired()])
-    submit = SubmitField(_l('Übermitteln'))
+##########################
+# Eigens erstellter Code #
+##########################
 
 class EventForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     start_date = DateField('Start Date', validators=[DataRequired()])
     end_date = DateField('End Date', validators=[DataRequired()])
     description = StringField('Description')
+    private = BooleanField('Private Event')
+    submit = SubmitField('Create Event')

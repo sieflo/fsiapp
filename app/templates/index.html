@@ -1,27 +1,66 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
+<head>
+    <meta charset='utf-8' />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.js"></script>
+</head>
+
     <h1>{{ _('Hallo, %(username)s!', username=current_user.username) }}</h1>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous{% if not prev_url %} disabled{% endif %}">
-                <a href="{{ prev_url or '#' }}">
-                    <span aria-hidden="true">&larr;</span> {{ _('Newer posts') }}
-                </a>
-            </li>
-            <li class="next{% if not next_url %} disabled{% endif %}">
-                <a href="{{ next_url or '#' }}">
-                    {{ _('Older posts') }} <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
+    <h2>{{ _('Hier sind die Termine der laufenden Woche:') }}</h2>
+    
+    <div id="calendar_list"></div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar_list');
+            
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                events: '/events', // Pfad zur get_events-Route, um Veranstaltungen abzurufen
+
+                timeZone: 'UTC',
+                initialView: 'listWeek',
+                
+                views: {
+                    listDay: { buttonText: 'list day' },
+                    listWeek: { buttonText: 'list week' },
+                    listMonth: { buttonText: 'list month' }
+                },
+
+                eventTimeFormat: { 
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    meridiem: false,
+                    hour12: false
+                },
+
+                headerToolbar: {
+                    left: 'title',
+                    center: '',
+                    right: 'listDay,listWeek,listMonth'
+                },
+
+            });
+
+            calendar.render();
+
+            // Funktion um zur Seite der Erstellung der Termine zu gelangen
+        document.getElementById('addEventButton').addEventListener('click', function() {
+            var addEventButton = document.getElementById('addEventButton');
+            addEventButton.addEventListener('click', function() {
+                window.location.href = '/calendar/add_event';
+            });
+        });
+    });
+
+    </script>
 {% endblock %}

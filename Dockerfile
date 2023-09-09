@@ -1,8 +1,8 @@
 FROM python:latest
 
-RUN useradd microblog
+RUN useradd mycalendar
 
-WORKDIR /home/microblog
+WORKDIR /home/mycalendar
 
 COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip
@@ -12,14 +12,14 @@ RUN venv/bin/pip install gunicorn pymysql cryptography
 
 COPY app app
 COPY migrations migrations
-COPY microblog.py config.py boot.sh ./
+COPY mycalendar.py config.py boot.sh ./
 COPY wsgi.py wsgi.py
 RUN chmod a+x boot.sh
 
-ENV FLASK_APP microblog.py
+ENV FLASK_APP mycalendar.py
 
-RUN chown -R microblog:microblog ./
-USER microblog
+RUN chown -R mycalendar:mycalendar ./
+USER mycalendar
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
