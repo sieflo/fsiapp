@@ -1,1 +1,1 @@
-FLASK_APP=mycalendar.py
+FLASK_APP=app.py
