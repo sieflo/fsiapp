@@ -25,7 +25,7 @@ itsdangerous==2.0.1
 Jinja2==3.0.1
 langdetect==1.0.9
 Mako==1.1.4
-MarkupSafe>=2.0.1
+MarkupSafe
 Pygments==2.9.0
 PyJWT==2.1.0
 PySocks==1.7.1
