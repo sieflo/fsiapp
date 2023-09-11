@@ -5,3 +5,116 @@
 2023-09-09 09:06:47,623 INFO: mycalendar startup [in C:\Flask\wiki\app\__init__.py:55]
 2023-09-09 09:07:04,237 INFO: mycalendar startup [in C:\Flask\wiki\app\__init__.py:55]
 2023-09-09 09:07:14,227 INFO: mycalendar startup [in C:\Flask\wiki\app\__init__.py:55]
+2023-09-11 00:05:35,132 INFO: mycalendar startup [in c:\Flask\wiki\app\__init__.py:55]
+2023-09-11 00:05:58,675 ERROR: Exception on /login [POST] [in C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:1454]
+Traceback (most recent call last):
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\util\_collections.py", line 1008, in __call__
+    return self.registry[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: <greenlet.greenlet object at 0x0000027DDDC1CDC0 (otid=0x0000027DDDBCFAB0) current active started main>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Flask\wiki\app\routes.py", line 40, in login
+    user = User.query.filter_by(username=form.username.data).first()
+           ^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 552, in __get__
+    return type.query_class(mapper, session=self.sa.session())
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\scoping.py", line 47, in __call__
+    return self.registry()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\util\_collections.py", line 1010, in __call__
+    return self.registry.setdefault(key, self.createfunc())
+                                         ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4101, in __call__
+    return self.class_(**local_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 176, in __init__
+    bind = options.pop('bind', None) or db.engine
+                                        ^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 998, in engine
+    return self.get_engine()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 1017, in get_engine
+    return connector.get_engine()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 593, in get_engine
+    sa_url, options = self.get_options(sa_url, echo)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 608, in get_options
+    sa_url, options = self._sa.apply_driver_hacks(self._app, sa_url, options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 933, in apply_driver_hacks
+    if sa_url.drivername.startswith('mysql'):
+       ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'drivername'
+2023-09-11 00:06:01,138 ERROR: Exception on /login [POST] [in C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:1454]
+Traceback (most recent call last):
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\util\_collections.py", line 1008, in __call__
+    return self.registry[key]
+           ~~~~~~~~~~~~~^^^^^
+KeyError: <greenlet.greenlet object at 0x0000027DDDC7DE40 (otid=0x0000027DDDBCF600) current active started main>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Flask\wiki\app\routes.py", line 40, in login
+    user = User.query.filter_by(username=form.username.data).first()
+           ^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 552, in __get__
+    return type.query_class(mapper, session=self.sa.session())
+                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\scoping.py", line 47, in __call__
+    return self.registry()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\util\_collections.py", line 1010, in __call__
+    return self.registry.setdefault(key, self.createfunc())
+                                         ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 4101, in __call__
+    return self.class_(**local_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 176, in __init__
+    bind = options.pop('bind', None) or db.engine
+                                        ^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 998, in engine
+    return self.get_engine()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 1017, in get_engine
+    return connector.get_engine()
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 593, in get_engine
+    sa_url, options = self.get_options(sa_url, echo)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 608, in get_options
+    sa_url, options = self._sa.apply_driver_hacks(self._app, sa_url, options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Florian\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_sqlalchemy\__init__.py", line 933, in apply_driver_hacks
+    if sa_url.drivername.startswith('mysql'):
+       ^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'drivername'
