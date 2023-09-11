@@ -12,11 +12,11 @@ RUN venv/bin/pip install gunicorn pymysql cryptography
 
 COPY app app
 COPY migrations migrations
-COPY mycalendar.py config.py boot.sh ./
+COPY calendar.py config.py boot.sh ./
 COPY wsgi.py wsgi.py
 RUN chmod a+x boot.sh
 
-ENV FLASK_APP mycalendar.py
+ENV FLASK_APP calendar.py
 
 RUN chown -R mycalendar:mycalendar ./
 USER mycalendar

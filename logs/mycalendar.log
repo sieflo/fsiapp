@@ -118,3 +118,7 @@ Traceback (most recent call last):
     if sa_url.drivername.startswith('mysql'):
        ^^^^^^^^^^^^^^^^^
 AttributeError: 'NoneType' object has no attribute 'drivername'
+2023-09-11 00:08:06,875 INFO: mycalendar startup [in c:\Flask\wiki\app\__init__.py:55]
+2023-09-11 00:26:45,983 INFO: mycalendar startup [in C:\Flask\wiki\app\__init__.py:55]
+2023-09-11 00:44:06,111 INFO: mycalendar startup [in C:\Flask\wiki\app\__init__.py:55]
+2023-09-11 01:28:23,972 INFO: mycalendar startup [in c:\Flask\wiki\app\__init__.py:55]
